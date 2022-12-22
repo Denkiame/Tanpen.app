@@ -10,7 +10,7 @@ import UniformTypeIdentifiers
 
 extension UTType {
     static var exampleText: UTType {
-        UTType(importedAs: "com.example.plain-text")
+        UTType(importedAs: "net.daringfireball.markdown")
     }
 }
 
