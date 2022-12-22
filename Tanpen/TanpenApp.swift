@@ -14,6 +14,7 @@ struct TanpenApp: App {
     var body: some Scene {
         DocumentGroup(newDocument: TanpenDocument()) { file in
             ContentView(document: file.$document)
+                .frame(minWidth: 342, minHeight: 330.67 - Metrics.titlebarHeight)
         }
     }
 }

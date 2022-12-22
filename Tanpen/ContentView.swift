@@ -19,27 +19,23 @@ struct ContentView: View {
     @State private var entersFullscreen = false
     @State private var hoversTitlebar = false
     
+    @State private var showsSharingServicesPicker = false
+    
     var body: some View {
         ZStack {
-            WebView(text: $document.text)
-            
-//            Button("Test") {
-//                webView.evaluateJavaScript("document.body.innerHTML") { html, error in
-//                    if let html = html as? String {
-//                        print(html)
-//                        document.text = html
-//                    }
-//                }
-//            }
-        }
-        .mask {
-            HStack(spacing: 0) {
-                LinearGradient(colors: [.black.opacity(0), .black], startPoint: .leading, endPoint: .trailing)
-                    .frame(width: 28)
-                Rectangle()
-                LinearGradient(colors: [.black.opacity(0), .black], startPoint: .trailing, endPoint: .leading)
-                    .frame(width: 28)
+            VStack(spacing: 0) {
+                WebView(text: $document.text)
+                    .mask {
+                        HStack(spacing: 0) {
+                            LinearGradient(colors: [.black.opacity(0), .black], startPoint: .leading, endPoint: .trailing)
+                                .frame(width: 28)
+                            Rectangle()
+                            LinearGradient(colors: [.black.opacity(0), .black], startPoint: .trailing, endPoint: .leading)
+                                .frame(width: 28)
+                        }
+                    }
             }
+            .padding(.top, entersFullscreen ? Metrics.titlebarHeight : 0)
         }
         .onReceive(NotificationCenter.default.publisher(for: NSWindow.didBecomeKeyNotification)) { notification in
             if window != nil { return }
@@ -88,7 +84,6 @@ struct ContentView: View {
 }
 
 extension NSWindow {
-    
     func showsTitlebar(_ value: Bool) {
         if let superview = standardWindowButton(.closeButton)?.superview {
             superview.animator().alphaValue = value ? 1 : 0
@@ -146,4 +141,28 @@ struct WebView: NSViewRepresentable {
             self._text = text
         }
     }
+}
+
+struct EffectView: NSViewRepresentable {
+    let material: NSVisualEffectView.Material
+    let blendingMode: NSVisualEffectView.BlendingMode
+    let followsWindowActiveState: Bool
+    
+    func makeNSView(context: Context) -> NSVisualEffectView {
+        let view = NSVisualEffectView()
+        view.material = material
+        view.blendingMode = blendingMode
+        view.state = followsWindowActiveState ? .followsWindowActiveState : .active
+        
+        return view
+    }
+    
+    init(_ material: NSVisualEffectView.Material,
+         blendingMode: NSVisualEffectView.BlendingMode, followsWindowActiveState: Bool = true) {
+        self.material = material
+        self.blendingMode = blendingMode
+        self.followsWindowActiveState = followsWindowActiveState
+    }
+    
+    func updateNSView(_ view: NSVisualEffectView, context: Context) { }
 }

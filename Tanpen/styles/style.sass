@@ -2,12 +2,13 @@
 @import 'preflight'
 @import 'typography'
 
-$fs: 21px
+$fs: 18px
 $mplr: 1 + calc(2/3)
-$lcct: 30
+$lcct: 32
 
 $lgth: $lcct * 1rem
 $lmch: $mplr * 1rem
+$lacs: (2 * $mplr - 1) * 1rem
 $lsid: ($mplr - 1) * 0.5rem
 
 $titlebar_height: 28px
@@ -38,7 +39,7 @@ body
 
   line-height: $mplr
   text-align: justify
-  margin: 0 calc($titlebar_height - $lsid) $titlebar_height
+  margin: calc($lacs - $titlebar_height) $lacs - $lsid $lacs
 
   p:not(:first-child)
     text-indent: 1rem
@@ -56,7 +57,7 @@ body
 
 @function corresponding_screen_height($text_frame_height)
   // Should return `px`
-  @return $text_frame_height + $titlebar_height - .01px
+  @return $text_frame_height + 2 * (2 * $mplr - 1) * $fs - $titlebar_height - .001px
 
 // Create `max-height` breakpoints
 $_last_breakpoint: null
@@ -81,4 +82,4 @@ $_last_breakpoint: null
     @include screen_breakpoints($ideal_lcct, $step, nth($sizes, $i))
 
 
-@include lgth_step_down($lcct, 18, $fs, 18px, 16px)
+@include lgth_step_down($lcct, 16, 18px, 16px)
