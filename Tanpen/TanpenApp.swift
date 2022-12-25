@@ -16,6 +16,17 @@ struct TanpenApp: App {
             ContentView(document: file.$document)
                 .frame(minWidth: 342, minHeight: 330.67 - Metrics.titlebarHeight)
         }
+        .commands {
+            CommandMenu("Control") {
+                Button("Insert Mode") {
+                }.keyboardShortcut("i", modifiers: [])
+                Divider()
+                Button("Next Character") {
+                }.keyboardShortcut("j", modifiers: [])
+                Button("Preview Character") {
+                }.keyboardShortcut("k", modifiers: [])
+            }
+        }
     }
 }
 
