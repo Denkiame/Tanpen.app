@@ -347,11 +347,12 @@ video {
 }
 :root {
   --foreground-colour: #21272e;
+  --theme-colour: #56B8CD;
 }
 
 @media screen and (prefers-color-scheme: dark) {
   :root {
-    --foreground-colour: #c9d1d9;
+    --foreground-colour: #adb6b8;
   }
 }
 html, body {
@@ -364,14 +365,22 @@ html, body {
   overscroll-behavior-y: none;
 }
 
+p::selection {
+  color: white;
+  text-shadow: 0 0 6px var(--theme-colour), 0 0 0.5px var(--theme-colour);
+  background-color: transparent;
+}
+
 body {
   height: 32rem;
-  font-family: Punc, Hak, sans-serif;
+  font-family: Punc, Aleo, Hak, sans-serif;
   font-feature-settings: "vchw";
   color: var(--foreground-colour);
   line-height: 1.6666666667;
   text-align: justify;
   margin: calc(2.3333333333rem - 28px) 2rem 2.3333333333rem;
+  p-text-shadow: 0 0 6px transparent, 0 0 0.5px transparent;
+  p-transition: text-shadow 0.3s ease-out;
 }
 body p:not(:first-child) {
   text-indent: 1rem;

@@ -7,6 +7,7 @@
 
 import SwiftUI
 import WebKit
+import InputMethodKit
 
 enum Metrics {
     static let titlebarHeight: CGFloat = 28
@@ -47,6 +48,8 @@ struct ContentView: View {
                             .padding(.horizontal, Metrics.horizontalPadding)
                             .foregroundColor(.secondary)
                             .frame(height: Metrics.titlebarHeight)
+                    }
+                    .touchBar {
                     }
             }
             .padding(.top, entersFullscreen ? Metrics.titlebarHeight : 0)
@@ -89,7 +92,9 @@ struct ContentView: View {
         .onReceive(NotificationCenter.default.publisher(for: NSWindow.didExitFullScreenNotification)) { _ in
             entersFullscreen = false
         }
-        .onChange(of: hoversTitlebar || isAutosavePanelOpen || entersFullscreen) { window.showsTitlebar($0) }
+        .onChange(of: hoversTitlebar || isAutosavePanelOpen || entersFullscreen) {
+            window.showsTitlebar($0) // FIXME: window could be nil when opened in fullscreen
+        }
     }
 }
 
@@ -105,7 +110,6 @@ extension NSWindow {
 struct WebView: NSViewRepresentable {
     @Binding var text: String
     @Binding var mode: Mode
-    
     
     func makeCoordinator() -> Coordinator { Coordinator(text: $text, mode: $mode) }
     
@@ -150,12 +154,18 @@ struct WebView: NSViewRepresentable {
             case "\u{1B}":
                 webView.evaluateJavaScript("changeContentEditable(false)")
                 mode = .normal
+                InputSource.select(with: "com.apple.keylayout.ABC")
                 break
             case "i":
                 DispatchQueue.main.async {
                     self.webView.evaluateJavaScript("changeContentEditable(true)")
                     self.mode = .insert
+                    InputSource.select(with: "com.apple.inputmethod.TCIM.Zhuyin")
                 }
+                break
+            case "x":
+                if mode != .normal { break }
+                webView.evaluateJavaScript("deleteCharacter()")
                 break
             case "j":  // TODO: Side cases, beginning and ending
                 if mode != .normal { break }
@@ -172,6 +182,32 @@ struct WebView: NSViewRepresentable {
             case "l":
                 if mode != .normal { break }
                 webView.evaluateJavaScript("changeSelectionByLine('backward')")
+                break
+            case "w":
+                if mode != .normal { break }
+                webView.evaluateJavaScript("changeSelectionByWord('forward')")
+                break
+            case "b":
+                if mode != .normal { break }
+                webView.evaluateJavaScript("changeSelectionByWord('backward')")
+                break
+            case "$":
+                if mode != .normal { break }
+                webView.evaluateJavaScript("changeSelectionByParagraph('forward')")
+                break
+            case "0", "^":
+                if mode != .normal { break }
+                webView.evaluateJavaScript("changeSelectionByParagraph('backward')")
+                break
+            case "A":
+                if mode != .normal { break }
+                
+                DispatchQueue.main.async {
+                    self.webView.evaluateJavaScript("appendSentence()")
+                    self.webView.evaluateJavaScript("changeContentEditable(true)")
+                    self.mode = .insert
+                    InputSource.select(with: "com.apple.inputmethod.TCIM.Zhuyin")
+                }
                 break
             default: break
             }
