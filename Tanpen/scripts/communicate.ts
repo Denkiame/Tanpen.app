@@ -1,6 +1,6 @@
 let isContentEditable = true
 
-document.body.addEventListener('input', () => {
+document.body.addEventListener('change', () => {
     // @ts-ignore
     webkit.messageHandlers.bridge.postMessage(document.body.innerText)
 })

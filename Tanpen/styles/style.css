@@ -345,6 +345,11 @@ video {
   font-family: Hak;
   src: local("PingFang TC");
 }
+@font-face {
+  font-family: Latin;
+  src: url(Aleo-Regular.ttf) format("truetype");
+  unicode-range: U+0021-007E;
+}
 :root {
   --foreground-colour: #21272e;
   --theme-colour: #56B8CD;
@@ -367,13 +372,14 @@ html, body {
 
 p::selection {
   color: white;
-  text-shadow: 0 0 6px var(--theme-colour), 0 0 0.5px var(--theme-colour);
+  text-shadow: 0 0 0.333rem var(--theme-colour);
   background-color: transparent;
 }
 
 body {
   height: 32rem;
-  font-family: Punc, Aleo, Hak, sans-serif;
+  caret-color: var(--theme-colour);
+  font-family: Punc, Latin, Hak, sans-serif;
   font-feature-settings: "vchw";
   color: var(--foreground-colour);
   line-height: 1.6666666667;

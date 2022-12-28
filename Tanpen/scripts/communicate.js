@@ -1,5 +1,5 @@
 var isContentEditable = true;
-document.body.addEventListener('input', function () {
+document.body.addEventListener('change', function () {
     // @ts-ignore
     webkit.messageHandlers.bridge.postMessage(document.body.innerText);
 });

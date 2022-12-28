@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		99944EB0295B042F00B1CE84 /* Aleo-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 99944EAF295B042F00B1CE84 /* Aleo-Regular.ttf */; };
+		99944EB2295B0A6900B1CE84 /* Vim.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99944EB1295B0A6900B1CE84 /* Vim.swift */; };
+		99944EB7295B14D500B1CE84 /* InputSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99944EB6295B14D500B1CE84 /* InputSource.swift */; };
+		99944EB9295B1A5800B1CE84 /* EffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99944EB8295B1A5800B1CE84 /* EffectView.swift */; };
+		99944EBB295B1FCB00B1CE84 /* WindowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99944EBA295B1FCB00B1CE84 /* WindowManager.swift */; };
+		99944EBD295BD23800B1CE84 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99944EBC295BD23800B1CE84 /* WebView.swift */; };
+		99944EBF295BD69300B1CE84 /* Metrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99944EBE295BD69300B1CE84 /* Metrics.swift */; };
 		99A18AE12953F7C000EF29B8 /* TanpenApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99A18AE02953F7C000EF29B8 /* TanpenApp.swift */; };
 		99A18AE32953F7C000EF29B8 /* TanpenDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99A18AE22953F7C000EF29B8 /* TanpenDocument.swift */; };
 		99A18AE52953F7C000EF29B8 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99A18AE42953F7C000EF29B8 /* ContentView.swift */; };
@@ -19,6 +26,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		99944EAF295B042F00B1CE84 /* Aleo-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Aleo-Regular.ttf"; sourceTree = "<group>"; };
+		99944EB1295B0A6900B1CE84 /* Vim.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vim.swift; sourceTree = "<group>"; };
+		99944EB6295B14D500B1CE84 /* InputSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputSource.swift; sourceTree = "<group>"; };
+		99944EB8295B1A5800B1CE84 /* EffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EffectView.swift; sourceTree = "<group>"; };
+		99944EBA295B1FCB00B1CE84 /* WindowManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowManager.swift; sourceTree = "<group>"; };
+		99944EBC295BD23800B1CE84 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
+		99944EBE295BD69300B1CE84 /* Metrics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Metrics.swift; sourceTree = "<group>"; };
 		99A18ADD2953F7C000EF29B8 /* Tanpen.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tanpen.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		99A18AE02953F7C000EF29B8 /* TanpenApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TanpenApp.swift; sourceTree = "<group>"; };
 		99A18AE22953F7C000EF29B8 /* TanpenDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TanpenDocument.swift; sourceTree = "<group>"; };
@@ -68,8 +82,14 @@
 				99A18AF52953F8DC00EF29B8 /* pages */,
 				99A18AF22953F8B200EF29B8 /* styles */,
 				99A18AE02953F7C000EF29B8 /* TanpenApp.swift */,
+				99944EB6295B14D500B1CE84 /* InputSource.swift */,
+				99944EB1295B0A6900B1CE84 /* Vim.swift */,
 				99A18AE22953F7C000EF29B8 /* TanpenDocument.swift */,
 				99A18AE42953F7C000EF29B8 /* ContentView.swift */,
+				99944EBE295BD69300B1CE84 /* Metrics.swift */,
+				99944EBC295BD23800B1CE84 /* WebView.swift */,
+				99944EBA295B1FCB00B1CE84 /* WindowManager.swift */,
+				99944EB8295B1A5800B1CE84 /* EffectView.swift */,
 				99A18AE62953F7C200EF29B8 /* Assets.xcassets */,
 				99A18AEB2953F7C200EF29B8 /* Info.plist */,
 				99A18AEC2953F7C200EF29B8 /* Tanpen.entitlements */,
@@ -105,6 +125,7 @@
 		99A18AF82953F90700EF29B8 /* fonts */ = {
 			isa = PBXGroup;
 			children = (
+				99944EAF295B042F00B1CE84 /* Aleo-Regular.ttf */,
 				99A18AF92953F91500EF29B8 /* PuncSansTC-Regular.otf */,
 			);
 			path = fonts;
@@ -179,6 +200,7 @@
 				99A18AFF2954512F00EF29B8 /* communicate.js in Resources */,
 				99A18AEA2953F7C200EF29B8 /* Preview Assets.xcassets in Resources */,
 				99A18AE72953F7C200EF29B8 /* Assets.xcassets in Resources */,
+				99944EB0295B042F00B1CE84 /* Aleo-Regular.ttf in Resources */,
 				99A18AFC2953FAA400EF29B8 /* style.css in Resources */,
 				99A18AF72953F8EF00EF29B8 /* document.html in Resources */,
 				99A18AFA2953F91500EF29B8 /* PuncSansTC-Regular.otf in Resources */,
@@ -192,7 +214,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				99944EB2295B0A6900B1CE84 /* Vim.swift in Sources */,
+				99944EBD295BD23800B1CE84 /* WebView.swift in Sources */,
+				99944EB7295B14D500B1CE84 /* InputSource.swift in Sources */,
+				99944EBB295B1FCB00B1CE84 /* WindowManager.swift in Sources */,
+				99944EBF295BD69300B1CE84 /* Metrics.swift in Sources */,
 				99A18AE32953F7C000EF29B8 /* TanpenDocument.swift in Sources */,
+				99944EB9295B1A5800B1CE84 /* EffectView.swift in Sources */,
 				99A18AE12953F7C000EF29B8 /* TanpenApp.swift in Sources */,
 				99A18AE52953F7C000EF29B8 /* ContentView.swift in Sources */,
 			);
@@ -252,7 +280,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -307,7 +335,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
@@ -325,7 +353,7 @@
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 7;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"Tanpen/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
@@ -355,7 +383,7 @@
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 7;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"Tanpen/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
