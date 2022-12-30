@@ -28,3 +28,7 @@ extension TISInputSource {
     var localizedName: String { getProperty(kTISPropertyLocalizedName) as! String }
     var isSelectCapable: Bool { getProperty(kTISPropertyInputSourceIsSelectCapable) as! Bool }
 }
+
+// TODO: Make them user's settings
+let insertInputMethodID = "com.apple.inputmethod.TCIM.Zhuyin"
+let controlInputMethodID = "com.apple.keylayout.ABC"

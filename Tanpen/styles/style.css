@@ -339,7 +339,7 @@ video {
 
 @font-face {
   font-family: Punc;
-  src: url(PuncSansTC-Regular.otf) format("opentype");
+  src: url(../assets/fonts/PuncSansTC-Regular.otf) format("opentype");
 }
 @font-face {
   font-family: Hak;
@@ -347,17 +347,21 @@ video {
 }
 @font-face {
   font-family: Latin;
-  src: url(Aleo-Regular.ttf) format("truetype");
+  src: url(../assets/fonts/Aleo-Regular.ttf) format("truetype");
   unicode-range: U+0021-007E;
 }
 :root {
-  --foreground-colour: #21272e;
+  --foreground-colour: #414141;
+  --selection-colour: black;
+  --ring-colour: #fff;
   --theme-colour: #56B8CD;
 }
 
 @media screen and (prefers-color-scheme: dark) {
   :root {
-    --foreground-colour: #adb6b8;
+    --foreground-colour: #cbcbcc;
+    --selection-colour: white;
+    --ring-colour: #fff;
   }
 }
 html, body {
@@ -370,13 +374,7 @@ html, body {
   overscroll-behavior-y: none;
 }
 
-p::selection {
-  color: white;
-  text-shadow: 0 0 0.333rem var(--theme-colour);
-  background-color: transparent;
-}
-
-body {
+main {
   height: 32rem;
   caret-color: var(--theme-colour);
   font-family: Punc, Latin, Hak, sans-serif;
@@ -385,29 +383,37 @@ body {
   line-height: 1.6666666667;
   text-align: justify;
   margin: calc(2.3333333333rem - 28px) 2rem 2.3333333333rem;
-  p-text-shadow: 0 0 6px transparent, 0 0 0.5px transparent;
-  p-transition: text-shadow 0.3s ease-out;
+  transition: color 0.2s ease-out, text-shadow 0.2s ease-out;
 }
-body p:not(:first-child) {
+main p:not(:first-child) {
   text-indent: 1rem;
 }
 
+br::before {
+  content: "test";
+}
+
+br {
+  width: 1rem;
+  background-color: red;
+}
+
 [contenteditable]:focus {
-  outline: 0px solid transparent;
+  outline: 0 solid transparent;
 }
 
 @media screen and (max-height: 631.999px) {
-  body {
+  main {
     height: 31rem;
   }
 }
 @media screen and (max-height: 613.999px) {
-  body {
+  main {
     height: 30rem;
   }
 }
 @media screen and (max-height: 595.999px) {
-  body {
+  main {
     height: 29rem;
   }
 }
@@ -415,89 +421,87 @@ body p:not(:first-child) {
   html, body {
     font-size: 16px;
   }
-  body {
+  main {
     height: 32rem;
   }
 }
 @media screen and (max-height: 558.6656666667px) {
-  body {
+  main {
     height: 31rem;
   }
 }
 @media screen and (max-height: 542.6656666667px) {
-  body {
+  main {
     height: 30rem;
   }
 }
 @media screen and (max-height: 526.6656666667px) {
-  body {
+  main {
     height: 29rem;
   }
 }
 @media screen and (max-height: 510.6656666667px) {
-  body {
+  main {
     height: 28rem;
   }
 }
 @media screen and (max-height: 494.6656666667px) {
-  body {
+  main {
     height: 27rem;
   }
 }
 @media screen and (max-height: 478.6656666667px) {
-  body {
+  main {
     height: 26rem;
   }
 }
 @media screen and (max-height: 462.6656666667px) {
-  body {
+  main {
     height: 25rem;
   }
 }
 @media screen and (max-height: 446.6656666667px) {
-  body {
+  main {
     height: 24rem;
   }
 }
 @media screen and (max-height: 430.6656666667px) {
-  body {
+  main {
     height: 23rem;
   }
 }
 @media screen and (max-height: 414.6656666667px) {
-  body {
+  main {
     height: 22rem;
   }
 }
 @media screen and (max-height: 398.6656666667px) {
-  body {
+  main {
     height: 21rem;
   }
 }
 @media screen and (max-height: 382.6656666667px) {
-  body {
+  main {
     height: 20rem;
   }
 }
 @media screen and (max-height: 366.6656666667px) {
-  body {
+  main {
     height: 19rem;
   }
 }
 @media screen and (max-height: 350.6656666667px) {
-  body {
+  main {
     height: 18rem;
   }
 }
 @media screen and (max-height: 334.6656666667px) {
-  body {
+  main {
     height: 17rem;
   }
 }
 @media screen and (max-height: 318.6656666667px) {
-  body {
+  main {
     height: 16rem;
   }
 }
-
-/*# sourceMappingURL=style.css.map */

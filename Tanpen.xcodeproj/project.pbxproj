@@ -7,11 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		99944EB0295B042F00B1CE84 /* Aleo-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 99944EAF295B042F00B1CE84 /* Aleo-Regular.ttf */; };
-		99944EB2295B0A6900B1CE84 /* Vim.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99944EB1295B0A6900B1CE84 /* Vim.swift */; };
+		9931241F295E96DB007046C1 /* pages in Resources */ = {isa = PBXBuildFile; fileRef = 9931241C295E96DA007046C1 /* pages */; };
+		99312420295E96DB007046C1 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 9931241D295E96DA007046C1 /* assets */; };
+		99312421295E96DB007046C1 /* styles in Resources */ = {isa = PBXBuildFile; fileRef = 9931241E295E96DB007046C1 /* styles */; };
+		99312423295E975F007046C1 /* scripts in Resources */ = {isa = PBXBuildFile; fileRef = 99312422295E975F007046C1 /* scripts */; };
 		99944EB7295B14D500B1CE84 /* InputSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99944EB6295B14D500B1CE84 /* InputSource.swift */; };
 		99944EB9295B1A5800B1CE84 /* EffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99944EB8295B1A5800B1CE84 /* EffectView.swift */; };
-		99944EBB295B1FCB00B1CE84 /* WindowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99944EBA295B1FCB00B1CE84 /* WindowManager.swift */; };
+		99944EBB295B1FCB00B1CE84 /* WindowDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99944EBA295B1FCB00B1CE84 /* WindowDelegate.swift */; };
 		99944EBD295BD23800B1CE84 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99944EBC295BD23800B1CE84 /* WebView.swift */; };
 		99944EBF295BD69300B1CE84 /* Metrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99944EBE295BD69300B1CE84 /* Metrics.swift */; };
 		99A18AE12953F7C000EF29B8 /* TanpenApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99A18AE02953F7C000EF29B8 /* TanpenApp.swift */; };
@@ -19,18 +21,16 @@
 		99A18AE52953F7C000EF29B8 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99A18AE42953F7C000EF29B8 /* ContentView.swift */; };
 		99A18AE72953F7C200EF29B8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 99A18AE62953F7C200EF29B8 /* Assets.xcassets */; };
 		99A18AEA2953F7C200EF29B8 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 99A18AE92953F7C200EF29B8 /* Preview Assets.xcassets */; };
-		99A18AF72953F8EF00EF29B8 /* document.html in Resources */ = {isa = PBXBuildFile; fileRef = 99A18AF62953F8EF00EF29B8 /* document.html */; };
-		99A18AFA2953F91500EF29B8 /* PuncSansTC-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 99A18AF92953F91500EF29B8 /* PuncSansTC-Regular.otf */; };
-		99A18AFC2953FAA400EF29B8 /* style.css in Resources */ = {isa = PBXBuildFile; fileRef = 99A18AFB2953FAA400EF29B8 /* style.css */; };
-		99A18AFF2954512F00EF29B8 /* communicate.js in Resources */ = {isa = PBXBuildFile; fileRef = 99A18AFE2954512F00EF29B8 /* communicate.js */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		99944EAF295B042F00B1CE84 /* Aleo-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Aleo-Regular.ttf"; sourceTree = "<group>"; };
-		99944EB1295B0A6900B1CE84 /* Vim.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vim.swift; sourceTree = "<group>"; };
+		9931241C295E96DA007046C1 /* pages */ = {isa = PBXFileReference; lastKnownFileType = folder; name = pages; path = Tanpen/pages; sourceTree = "<group>"; };
+		9931241D295E96DA007046C1 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; name = assets; path = Tanpen/assets; sourceTree = "<group>"; };
+		9931241E295E96DB007046C1 /* styles */ = {isa = PBXFileReference; lastKnownFileType = folder; name = styles; path = Tanpen/styles; sourceTree = "<group>"; };
+		99312422295E975F007046C1 /* scripts */ = {isa = PBXFileReference; lastKnownFileType = folder; name = scripts; path = Tanpen/scripts; sourceTree = "<group>"; };
 		99944EB6295B14D500B1CE84 /* InputSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputSource.swift; sourceTree = "<group>"; };
 		99944EB8295B1A5800B1CE84 /* EffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EffectView.swift; sourceTree = "<group>"; };
-		99944EBA295B1FCB00B1CE84 /* WindowManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowManager.swift; sourceTree = "<group>"; };
+		99944EBA295B1FCB00B1CE84 /* WindowDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowDelegate.swift; sourceTree = "<group>"; };
 		99944EBC295BD23800B1CE84 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		99944EBE295BD69300B1CE84 /* Metrics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Metrics.swift; sourceTree = "<group>"; };
 		99A18ADD2953F7C000EF29B8 /* Tanpen.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tanpen.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -41,10 +41,6 @@
 		99A18AE92953F7C200EF29B8 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		99A18AEB2953F7C200EF29B8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		99A18AEC2953F7C200EF29B8 /* Tanpen.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Tanpen.entitlements; sourceTree = "<group>"; };
-		99A18AF62953F8EF00EF29B8 /* document.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = document.html; sourceTree = "<group>"; };
-		99A18AF92953F91500EF29B8 /* PuncSansTC-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PuncSansTC-Regular.otf"; sourceTree = "<group>"; };
-		99A18AFB2953FAA400EF29B8 /* style.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = style.css; sourceTree = "<group>"; };
-		99A18AFE2954512F00EF29B8 /* communicate.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = communicate.js; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +57,10 @@
 		99A18AD42953F7C000EF29B8 = {
 			isa = PBXGroup;
 			children = (
+				9931241D295E96DA007046C1 /* assets */,
+				9931241E295E96DB007046C1 /* styles */,
+				99312422295E975F007046C1 /* scripts */,
+				9931241C295E96DA007046C1 /* pages */,
 				99A18ADF2953F7C000EF29B8 /* Tanpen */,
 				99A18ADE2953F7C000EF29B8 /* Products */,
 			);
@@ -77,18 +77,13 @@
 		99A18ADF2953F7C000EF29B8 /* Tanpen */ = {
 			isa = PBXGroup;
 			children = (
-				99A18AFD295450B500EF29B8 /* scripts */,
-				99A18AF82953F90700EF29B8 /* fonts */,
-				99A18AF52953F8DC00EF29B8 /* pages */,
-				99A18AF22953F8B200EF29B8 /* styles */,
 				99A18AE02953F7C000EF29B8 /* TanpenApp.swift */,
 				99944EB6295B14D500B1CE84 /* InputSource.swift */,
-				99944EB1295B0A6900B1CE84 /* Vim.swift */,
 				99A18AE22953F7C000EF29B8 /* TanpenDocument.swift */,
 				99A18AE42953F7C000EF29B8 /* ContentView.swift */,
 				99944EBE295BD69300B1CE84 /* Metrics.swift */,
 				99944EBC295BD23800B1CE84 /* WebView.swift */,
-				99944EBA295B1FCB00B1CE84 /* WindowManager.swift */,
+				99944EBA295B1FCB00B1CE84 /* WindowDelegate.swift */,
 				99944EB8295B1A5800B1CE84 /* EffectView.swift */,
 				99A18AE62953F7C200EF29B8 /* Assets.xcassets */,
 				99A18AEB2953F7C200EF29B8 /* Info.plist */,
@@ -104,39 +99,6 @@
 				99A18AE92953F7C200EF29B8 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
-			sourceTree = "<group>";
-		};
-		99A18AF22953F8B200EF29B8 /* styles */ = {
-			isa = PBXGroup;
-			children = (
-				99A18AFB2953FAA400EF29B8 /* style.css */,
-			);
-			path = styles;
-			sourceTree = "<group>";
-		};
-		99A18AF52953F8DC00EF29B8 /* pages */ = {
-			isa = PBXGroup;
-			children = (
-				99A18AF62953F8EF00EF29B8 /* document.html */,
-			);
-			path = pages;
-			sourceTree = "<group>";
-		};
-		99A18AF82953F90700EF29B8 /* fonts */ = {
-			isa = PBXGroup;
-			children = (
-				99944EAF295B042F00B1CE84 /* Aleo-Regular.ttf */,
-				99A18AF92953F91500EF29B8 /* PuncSansTC-Regular.otf */,
-			);
-			path = fonts;
-			sourceTree = "<group>";
-		};
-		99A18AFD295450B500EF29B8 /* scripts */ = {
-			isa = PBXGroup;
-			children = (
-				99A18AFE2954512F00EF29B8 /* communicate.js */,
-			);
-			path = scripts;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -197,13 +159,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				99A18AFF2954512F00EF29B8 /* communicate.js in Resources */,
+				99312421295E96DB007046C1 /* styles in Resources */,
+				9931241F295E96DB007046C1 /* pages in Resources */,
+				99312420295E96DB007046C1 /* assets in Resources */,
+				99312423295E975F007046C1 /* scripts in Resources */,
 				99A18AEA2953F7C200EF29B8 /* Preview Assets.xcassets in Resources */,
 				99A18AE72953F7C200EF29B8 /* Assets.xcassets in Resources */,
-				99944EB0295B042F00B1CE84 /* Aleo-Regular.ttf in Resources */,
-				99A18AFC2953FAA400EF29B8 /* style.css in Resources */,
-				99A18AF72953F8EF00EF29B8 /* document.html in Resources */,
-				99A18AFA2953F91500EF29B8 /* PuncSansTC-Regular.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -214,10 +175,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				99944EB2295B0A6900B1CE84 /* Vim.swift in Sources */,
 				99944EBD295BD23800B1CE84 /* WebView.swift in Sources */,
 				99944EB7295B14D500B1CE84 /* InputSource.swift in Sources */,
-				99944EBB295B1FCB00B1CE84 /* WindowManager.swift in Sources */,
+				99944EBB295B1FCB00B1CE84 /* WindowDelegate.swift in Sources */,
 				99944EBF295BD69300B1CE84 /* Metrics.swift in Sources */,
 				99A18AE32953F7C000EF29B8 /* TanpenDocument.swift in Sources */,
 				99944EB9295B1A5800B1CE84 /* EffectView.swift in Sources */,

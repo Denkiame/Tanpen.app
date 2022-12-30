@@ -8,21 +8,14 @@
 import SwiftUI
 
 struct ContentView: View {
-    @EnvironmentObject var windowManager: WindowManager
-    @StateObject var vim = Vim()
+    @Environment(\.controlActiveState) private var controlActiveState
     
     @Binding var document: TanpenDocument
-    @State private var entersFullscreen = false
-    
-    @State private var window: NSWindow!
-    
     
     var body: some View {
         ZStack {
             VStack(spacing: 0) {
-                WebView(text: $document.text, in: $window) { webView in
-                    vim.webView = webView
-                }
+                WebView(text: $document.text)
                     .mask {
                         HStack(spacing: 0) {
                             LinearGradient(colors: [.black.opacity(0), .black], startPoint: .leading, endPoint: .trailing)
@@ -32,17 +25,7 @@ struct ContentView: View {
                                 .frame(width: 28)
                         }
                     }
-                    .overlay(alignment: .bottomLeading) {
-                        Text(vim.mode == .insert ? "" : "<~>")
-                            .font(.system(.body).monospaced())
-                            .padding(.horizontal, Metrics.horizontalPadding)
-                            .foregroundColor(.secondary)
-                            .frame(height: Metrics.titlebarHeight)
-                    }
             }
-        }
-        .onChange(of: window) { _ in
-            windowManager.correspondingVim[window] = vim
         }
 
 //        .onReceive(NotificationCenter.default.publisher(for: NSPopover.didShowNotification)) { notif in

@@ -1,65 +1,89 @@
-var isContentEditable = true;
-document.body.addEventListener('change', function () {
-    // @ts-ignore
-    webkit.messageHandlers.bridge.postMessage(document.body.innerText);
+let isContentEditable = true;
+const textChangeObserver = new MutationObserver(() => 
+// @ts-ignore
+webkit.messageHandlers.bridge.postMessage(document.body.innerText));
+const textChangeObserve = () => textChangeObserver.observe(document.body, {
+    childList: true,
+    characterDataOldValue: true
 });
-document.body.addEventListener('paste', function (event) {
+const setupDocument = (text) => {
+    document.body.innerText = text;
+    textChangeObserve();
+};
+const loadFromText = (text, shouldPauseObserver = false) => {
+    if (shouldPauseObserver)
+        textChangeObserver.disconnect();
+    document.body.innerText = text;
+    if (shouldPauseObserver)
+        textChangeObserve();
+};
+document.body.addEventListener('paste', event => {
     event.preventDefault();
     if (!event.clipboardData)
         return;
-    var text = event.clipboardData.getData('text/plain');
+    const text = event.clipboardData.getData('text/plain');
     window.document.execCommand('insertText', false, text);
 });
-document.body.onpointerup = function () {
+document.body.onpointerup = () => {
     if (isContentEditable) {
         return;
     }
-    var selection = window.getSelection();
+    const selection = window.getSelection();
     if (!selection)
         return;
     if (selection.isCollapsed)
         selection.modify('extend', 'forward', 'character');
 };
-var loadFromFile = function (html) {
-    document.body.innerHTML = html;
-};
-var changeContentEditable = function (editable) {
+const changeContentEditable = (editable) => {
     isContentEditable = editable;
-    document.body.contentEditable = editable ? 'true' : 'false';
-    var selection = window.getSelection();
+    document.body.contentEditable = editable ? 'plaintext-only' : 'false';
+    const selection = window.getSelection();
     if (!selection)
         return;
     if (editable)
-        selection.collapseToStart();
-    else if (selection.isCollapsed)
-        selection.modify('extend', selection.anchorOffset === 0 ?
-            'forward' :
-            'backward', 'character');
+        selection.collapse(selection.focusNode, selection.focusOffset);
+    else if (selection.isCollapsed) {
+        if (selection.focusOffset === 0)
+            selection.modify('move', 'forward', 'character');
+        selection.modify('extend', 'backward', 'character');
+    }
 };
-var changeSelectionByCharacter = function (direction, repeat) {
-    if (repeat === void 0) { repeat = 1; }
-    var selection = window.getSelection();
+const moveByCharacter = (direction, repeat = 1) => {
+    const selection = window.getSelection();
     if (!selection)
         return;
-    if (direction === 'forward') {
+    if (direction === 'forward')
         selection.collapseToEnd();
+    else {
+        selection.collapseToStart();
         --repeat;
     }
-    else
-        selection.collapseToStart();
     do
-        if (repeat) {
-            if (direction === 'backward' && selection.anchorOffset === 0)
-                continue;
+        if (repeat)
             selection.modify('move', direction, 'character');
+        else {
+            selection.modify('extend', 'backward', 'character');
+            validateSelection(selection, direction);
         }
-        else
-            selection.modify('extend', 'forward', 'character');
     while (--repeat >= 0);
 };
-var changeSelectionByWord = function (direction, repeat) {
-    if (repeat === void 0) { repeat = 1; }
-    var selection = window.getSelection();
+const validateSelection = (selection, direction) => {
+    if (selection.toString().length === 0) {
+        selection.modify('move', 'forward', 'character');
+        selection.modify('extend', 'backward', 'character');
+        return;
+    }
+    while (selection.toString() === '\n') {
+        selection.collapseToStart();
+        selection.modify('move', direction, 'character');
+        selection.modify('extend', 'forward', 'character');
+    }
+    if (selection.isCollapsed) {
+        selection.modify('extend', 'backward', 'character');
+    }
+};
+const changeSelectionByWord = (direction, repeat = 1) => {
+    const selection = window.getSelection();
     if (!selection)
         return;
     if (direction === 'forward') {
@@ -80,8 +104,8 @@ var changeSelectionByWord = function (direction, repeat) {
         }
     while (--repeat >= 0);
 };
-var changeSelectionByParagraph = function (direction) {
-    var selection = window.getSelection();
+const changeSelectionByParagraph = (direction) => {
+    const selection = window.getSelection();
     if (!selection) {
         return;
     }
@@ -93,15 +117,15 @@ var changeSelectionByParagraph = function (direction) {
     }
     selection.modify('extend', direction, 'paragraphboundary');
 };
-var deleteCharacter = function () {
-    var selection = window.getSelection();
+const deleteCharacter = () => {
+    const selection = window.getSelection();
     if (!selection)
         return;
     selection.deleteFromDocument();
     selection.modify('extend', 'forward', 'character');
 };
-var changeSelectionByLine = function (direction) {
-    var selection = window.getSelection();
+const changeSelectionByLine = (direction) => {
+    const selection = window.getSelection();
     if (!selection) {
         return;
     }
@@ -109,8 +133,8 @@ var changeSelectionByLine = function (direction) {
     selection.modify('move', direction, 'line');
     selection.modify('extend', 'forward', 'character');
 };
-var appendSentence = function () {
-    var selection = window.getSelection();
+const appendSentence = () => {
+    const selection = window.getSelection();
     if (!selection) {
         return;
     }
