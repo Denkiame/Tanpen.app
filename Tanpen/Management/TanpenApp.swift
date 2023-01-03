@@ -18,7 +18,13 @@ struct TanpenApp: App {
         }
         
         Settings {
-            Text("Help")
+            TabView {
+                Text("General")
+                    .tabItem {
+                        Label("General", systemImage: "gearshape")
+                    }
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
     }
 }
