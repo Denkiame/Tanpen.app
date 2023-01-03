@@ -2,7 +2,7 @@
 @import 'preflight'
 @import 'typography'
 
-$fs: 18px
+$fs: 24px
 $mplr: 1 + calc(2/3)
 $lcct: 32
 
@@ -21,6 +21,7 @@ $titlebar_height: 28px
 
 @media screen and (prefers-color-scheme: dark)
   :root
+    // --fallback-background-colour: black
     --foreground-colour: #cbcbcc
     --selection-colour: white
     --ring-colour: #fff
@@ -29,34 +30,53 @@ html, body
   writing-mode: vertical-rl
   font-size: $fs
 
+body
+  background-color: var(--fallback-background-colour)
+
 *
   overscroll-behavior:
     x: contain
     y: none
 
+.normal
+  font-feature-settings: 'vchw' 0
+
+.insert
+  font-feature-settings: 'vchw'
+
 main
   height: $lgth
   caret-color: var(--theme-colour)
 
-  font:
-    family: Punc, Latin, Hak, sans-serif
-    feature-settings: 'vchw'
+  font-family: Punc, Latin, Hak, sans-serif
   color: var(--foreground-colour)
 
   line-height: $mplr
   text-align: justify
   margin: calc($lacs - $titlebar_height) $lacs - $lsid $lacs
-  transition: color 0.2s ease-out, text-shadow 0.2s ease-out
+
+  display: grid
+  grid-template-columns: 1fr
 
   p:not(:first-child)
     text-indent: 1rem
 
-br::before
-  content: 'test'
+  .editor, .backdrop
+    height: $lgth
 
-br
-  width: 1rem
-  background-color: red
+  .editor
+    grid-area: a
+    z-index: 1
+  
+  .backdrop
+    grid-area: a
+    color: transparent
+    user-select: none
+    z-index: 0
+
+mark
+  color: transparent
+  background-color: green
 
 [contenteditable]:focus
   outline: 0 solid transparent
@@ -99,4 +119,4 @@ $_last_breakpoint: null
     @include screen_breakpoints($ideal_lcct, $step, nth($sizes, $i))
 
 
-@include lgth_step_down($lcct, 16, 18px, 16px)
+@include lgth_step_down($lcct, 16, $fs, 21px, 18px, 16px)

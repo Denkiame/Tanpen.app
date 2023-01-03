@@ -1,7 +1,8 @@
 {
     "compilerOptions": {
+        "moduleResolution": "Node",
+        "strict": true,
         "target": "ESNext",
-        "rootDir": "src",
-        "outDir": "scripts"
+        "removeComments": true
     }
 }

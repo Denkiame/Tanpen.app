@@ -366,7 +366,11 @@ video {
 }
 html, body {
   writing-mode: vertical-rl;
-  font-size: 18px;
+  font-size: 24px;
+}
+
+body {
+  background-color: var(--fallback-background-colour);
 }
 
 * {
@@ -374,34 +378,107 @@ html, body {
   overscroll-behavior-y: none;
 }
 
+.normal {
+  font-feature-settings: "vchw" 0;
+}
+
+.insert {
+  font-feature-settings: "vchw";
+}
+
 main {
   height: 32rem;
   caret-color: var(--theme-colour);
   font-family: Punc, Latin, Hak, sans-serif;
-  font-feature-settings: "vchw";
   color: var(--foreground-colour);
   line-height: 1.6666666667;
   text-align: justify;
   margin: calc(2.3333333333rem - 28px) 2rem 2.3333333333rem;
-  transition: color 0.2s ease-out, text-shadow 0.2s ease-out;
+  display: grid;
+  grid-template-columns: 1fr;
 }
 main p:not(:first-child) {
   text-indent: 1rem;
 }
-
-br::before {
-  content: "test";
+main .editor, main .backdrop {
+  height: 32rem;
+}
+main .editor {
+  grid-area: a;
+  z-index: 1;
+}
+main .backdrop {
+  grid-area: a;
+  color: transparent;
+  user-select: none;
+  z-index: 0;
 }
 
-br {
-  width: 1rem;
-  background-color: red;
+mark {
+  color: transparent;
+  background-color: green;
 }
 
 [contenteditable]:focus {
   outline: 0 solid transparent;
 }
 
+@media screen and (max-height: 851.999px) {
+  main {
+    height: 31rem;
+  }
+}
+@media screen and (max-height: 827.999px) {
+  main {
+    height: 30rem;
+  }
+}
+@media screen and (max-height: 803.999px) {
+  main {
+    height: 29rem;
+  }
+}
+@media screen and (max-height: 779.999px) {
+  main {
+    height: 28rem;
+  }
+}
+@media screen and (max-height: 741.999px) {
+  html, body {
+    font-size: 21px;
+  }
+  main {
+    height: 32rem;
+  }
+}
+@media screen and (max-height: 741.999px) {
+  main {
+    height: 31rem;
+  }
+}
+@media screen and (max-height: 720.999px) {
+  main {
+    height: 30rem;
+  }
+}
+@media screen and (max-height: 699.999px) {
+  main {
+    height: 29rem;
+  }
+}
+@media screen and (max-height: 678.999px) {
+  main {
+    height: 28rem;
+  }
+}
+@media screen and (max-height: 643.999px) {
+  html, body {
+    font-size: 18px;
+  }
+  main {
+    height: 32rem;
+  }
+}
 @media screen and (max-height: 631.999px) {
   main {
     height: 31rem;
