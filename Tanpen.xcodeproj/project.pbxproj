@@ -74,19 +74,15 @@
 		99A18ADF2953F7C000EF29B8 /* Tanpen */ = {
 			isa = PBXGroup;
 			children = (
+				99E51E2B2964A038003A0A05 /* Management */,
+				99E51E2A2964A017003A0A05 /* Views */,
 				99E51E2929649ED1003A0A05 /* src */,
 				99E51E2429649CB2003A0A05 /* assets */,
 				99E51E2229649CB1003A0A05 /* pages */,
 				99E51E2129649CB1003A0A05 /* scripts */,
 				99E51E2329649CB1003A0A05 /* styles */,
-				99A18AE02953F7C000EF29B8 /* TanpenApp.swift */,
 				99944EB6295B14D500B1CE84 /* InputSource.swift */,
-				99A18AE22953F7C000EF29B8 /* TanpenDocument.swift */,
-				99A18AE42953F7C000EF29B8 /* ContentView.swift */,
 				99944EBE295BD69300B1CE84 /* Metrics.swift */,
-				99944EBC295BD23800B1CE84 /* WebView.swift */,
-				99944EBA295B1FCB00B1CE84 /* WindowDelegate.swift */,
-				99944EB8295B1A5800B1CE84 /* EffectView.swift */,
 				99A18AE62953F7C200EF29B8 /* Assets.xcassets */,
 				99A18AEB2953F7C200EF29B8 /* Info.plist */,
 				99A18AEC2953F7C200EF29B8 /* Tanpen.entitlements */,
@@ -101,6 +97,26 @@
 				99A18AE92953F7C200EF29B8 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		99E51E2A2964A017003A0A05 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				99A18AE42953F7C000EF29B8 /* ContentView.swift */,
+				99944EB8295B1A5800B1CE84 /* EffectView.swift */,
+				99944EBC295BD23800B1CE84 /* WebView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		99E51E2B2964A038003A0A05 /* Management */ = {
+			isa = PBXGroup;
+			children = (
+				99A18AE02953F7C000EF29B8 /* TanpenApp.swift */,
+				99A18AE22953F7C000EF29B8 /* TanpenDocument.swift */,
+				99944EBA295B1FCB00B1CE84 /* WindowDelegate.swift */,
+			);
+			path = Management;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
