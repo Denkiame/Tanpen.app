@@ -18,6 +18,7 @@ $titlebar_height: 28px
   --selection-colour: black
   --ring-colour: #fff
   --theme-colour: #56B8CD
+  --text-frame-height: $lgth
 
 @media screen and (prefers-color-scheme: dark)
   :root
@@ -45,7 +46,7 @@ body
   font-feature-settings: 'vchw'
 
 main
-  height: $lgth
+  height: var(--text-frame-height)
   caret-color: var(--theme-colour)
 
   font-family: Punc, Latin, Hak, sans-serif
@@ -62,7 +63,7 @@ main
     text-indent: 1rem
 
   .editor, .backdrop
-    height: $lgth
+    height: var(--text-frame-height)
 
   .editor
     grid-area: a
@@ -77,7 +78,8 @@ main
 mark
   color: transparent
   background-color: var(--theme-colour)
-  opacity: 0.6
+  opacity: 0.54
+  border-radius: 0.1rem
   // TODO: Animation if able 
 
 mark::before
@@ -96,8 +98,8 @@ mark::before
   @if $should_set_fs
     html, body
       font-size: $fs
-  main 
-    height: $_lcct * 1rem
+  :root 
+    --text-frame-height: #{$_lcct * 1rem}
 
 @function corresponding_screen_height($text_frame_height)
   // Should return `px`

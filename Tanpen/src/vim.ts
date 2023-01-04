@@ -25,12 +25,20 @@ export default class Vim {
 
     get mode() { return this._mode }
     set mode(newValue) {
+        document.body.classList.remove(this._mode)
+        document.body.classList.add(newValue)
+        this._mode = newValue
+        // @ts-ignore
+        webkit.messageHandlers['mode'].postMessage(newValue)
+
         switch (newValue) {
         case 'normal':
             this.textEditor.contentEditable = 'false'
             if (this.selection)
-                this.moveByCharacter('backward')
-            this.highlight()
+                if (this.selection.focusOffset === 0)
+                    this.highlight()
+                else
+                    this.moveByCharacter('backward')
             break
         case 'visual':
             break
@@ -39,13 +47,6 @@ export default class Vim {
             this.removeHighlight()
             break
         }
-
-        document.body.classList.remove(this._mode)
-        document.body.classList.add(newValue)
-        this._mode = newValue
-
-        // @ts-ignore
-        webkit.messageHandlers['mode'].postMessage(newValue)
     }
 
     add(event: KeyboardEvent) {
@@ -133,7 +134,7 @@ export default class Vim {
 
     removeHighlight() {
         if (this.caret) {
-            this.caret.outerHTML = this.caret.innerHTML
+            this.caret.outerHTML = this.caret.classList.contains('newline') ? '<br />' : this.caret.innerHTML
             this.caret = null
             this.backdrop.normalize()
         }
@@ -142,13 +143,22 @@ export default class Vim {
     highlight() {
         if (this.mode !== 'normal' || !this.selection.isCollapsed) return
 
+        console.log(this.selection)
+
         this.removeHighlight()
 
         const range = this.selection.getRangeAt(0)
         // Touched the end of line
         if (range.endContainer.textContent!.length === range.endOffset) return
+
+        console.log(range)
         
         if (range.endContainer === this.textEditor) {
+            this.caret = document.createElement('mark')
+            this.caret.innerHTML = '　<br />'
+            this.caret.classList.add('newline')
+
+            this.backdrop.replaceChild(this.caret, this.backdrop.childNodes[range.endOffset])
             // TODO: Mark <br /> 
             return
         }

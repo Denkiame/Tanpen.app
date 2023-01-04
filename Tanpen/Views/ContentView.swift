@@ -27,7 +27,12 @@ struct ContentView: View {
                     }
             }
         }
-
+        .onReceive(NotificationCenter.default.publisher(for: Notification.Name("shareText"))) { notification in
+            if controlActiveState != .key { return }
+            if let item = notification.object as? NSSharingService {
+                item.perform(withItems: [ document.text ])
+            }
+        }
 //        .onReceive(NotificationCenter.default.publisher(for: NSPopover.didShowNotification)) { notif in
 //            let popover = notif.object as! NSPopover
 //            if let button = popover.delegate as? NSButton,

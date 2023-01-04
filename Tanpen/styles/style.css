@@ -355,6 +355,7 @@ video {
   --selection-colour: black;
   --ring-colour: #fff;
   --theme-colour: #56B8CD;
+  --text-frame-height: $lgth;
 }
 
 @media screen and (prefers-color-scheme: dark) {
@@ -387,7 +388,7 @@ body {
 }
 
 main {
-  height: 32rem;
+  height: var(--text-frame-height);
   caret-color: var(--theme-colour);
   font-family: Punc, Latin, Hak, sans-serif;
   color: var(--foreground-colour);
@@ -401,7 +402,7 @@ main p:not(:first-child) {
   text-indent: 1rem;
 }
 main .editor, main .backdrop {
-  height: 32rem;
+  height: var(--text-frame-height);
 }
 main .editor {
   grid-area: a;
@@ -417,7 +418,8 @@ main .backdrop {
 mark {
   color: transparent;
   background-color: var(--theme-colour);
-  opacity: 0.6;
+  opacity: 0.54;
+  border-radius: 0.1rem;
 }
 
 mark::before {
@@ -430,161 +432,161 @@ mark::before {
 }
 
 @media screen and (max-height: 851.999px) {
-  main {
-    height: 31rem;
+  :root {
+    --text-frame-height: 31rem;
   }
 }
 @media screen and (max-height: 827.999px) {
-  main {
-    height: 30rem;
+  :root {
+    --text-frame-height: 30rem;
   }
 }
 @media screen and (max-height: 803.999px) {
-  main {
-    height: 29rem;
+  :root {
+    --text-frame-height: 29rem;
   }
 }
 @media screen and (max-height: 779.999px) {
-  main {
-    height: 28rem;
+  :root {
+    --text-frame-height: 28rem;
   }
 }
 @media screen and (max-height: 741.999px) {
   html, body {
     font-size: 21px;
   }
-  main {
-    height: 32rem;
+  :root {
+    --text-frame-height: 32rem;
   }
 }
 @media screen and (max-height: 741.999px) {
-  main {
-    height: 31rem;
+  :root {
+    --text-frame-height: 31rem;
   }
 }
 @media screen and (max-height: 720.999px) {
-  main {
-    height: 30rem;
+  :root {
+    --text-frame-height: 30rem;
   }
 }
 @media screen and (max-height: 699.999px) {
-  main {
-    height: 29rem;
+  :root {
+    --text-frame-height: 29rem;
   }
 }
 @media screen and (max-height: 678.999px) {
-  main {
-    height: 28rem;
+  :root {
+    --text-frame-height: 28rem;
   }
 }
 @media screen and (max-height: 643.999px) {
   html, body {
     font-size: 18px;
   }
-  main {
-    height: 32rem;
+  :root {
+    --text-frame-height: 32rem;
   }
 }
 @media screen and (max-height: 631.999px) {
-  main {
-    height: 31rem;
+  :root {
+    --text-frame-height: 31rem;
   }
 }
 @media screen and (max-height: 613.999px) {
-  main {
-    height: 30rem;
+  :root {
+    --text-frame-height: 30rem;
   }
 }
 @media screen and (max-height: 595.999px) {
-  main {
-    height: 29rem;
+  :root {
+    --text-frame-height: 29rem;
   }
 }
 @media screen and (max-height: 568.6656666667px) {
   html, body {
     font-size: 16px;
   }
-  main {
-    height: 32rem;
+  :root {
+    --text-frame-height: 32rem;
   }
 }
 @media screen and (max-height: 558.6656666667px) {
-  main {
-    height: 31rem;
+  :root {
+    --text-frame-height: 31rem;
   }
 }
 @media screen and (max-height: 542.6656666667px) {
-  main {
-    height: 30rem;
+  :root {
+    --text-frame-height: 30rem;
   }
 }
 @media screen and (max-height: 526.6656666667px) {
-  main {
-    height: 29rem;
+  :root {
+    --text-frame-height: 29rem;
   }
 }
 @media screen and (max-height: 510.6656666667px) {
-  main {
-    height: 28rem;
+  :root {
+    --text-frame-height: 28rem;
   }
 }
 @media screen and (max-height: 494.6656666667px) {
-  main {
-    height: 27rem;
+  :root {
+    --text-frame-height: 27rem;
   }
 }
 @media screen and (max-height: 478.6656666667px) {
-  main {
-    height: 26rem;
+  :root {
+    --text-frame-height: 26rem;
   }
 }
 @media screen and (max-height: 462.6656666667px) {
-  main {
-    height: 25rem;
+  :root {
+    --text-frame-height: 25rem;
   }
 }
 @media screen and (max-height: 446.6656666667px) {
-  main {
-    height: 24rem;
+  :root {
+    --text-frame-height: 24rem;
   }
 }
 @media screen and (max-height: 430.6656666667px) {
-  main {
-    height: 23rem;
+  :root {
+    --text-frame-height: 23rem;
   }
 }
 @media screen and (max-height: 414.6656666667px) {
-  main {
-    height: 22rem;
+  :root {
+    --text-frame-height: 22rem;
   }
 }
 @media screen and (max-height: 398.6656666667px) {
-  main {
-    height: 21rem;
+  :root {
+    --text-frame-height: 21rem;
   }
 }
 @media screen and (max-height: 382.6656666667px) {
-  main {
-    height: 20rem;
+  :root {
+    --text-frame-height: 20rem;
   }
 }
 @media screen and (max-height: 366.6656666667px) {
-  main {
-    height: 19rem;
+  :root {
+    --text-frame-height: 19rem;
   }
 }
 @media screen and (max-height: 350.6656666667px) {
-  main {
-    height: 18rem;
+  :root {
+    --text-frame-height: 18rem;
   }
 }
 @media screen and (max-height: 334.6656666667px) {
-  main {
-    height: 17rem;
+  :root {
+    --text-frame-height: 17rem;
   }
 }
 @media screen and (max-height: 318.6656666667px) {
-  main {
-    height: 16rem;
+  :root {
+    --text-frame-height: 16rem;
   }
 }
