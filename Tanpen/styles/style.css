@@ -416,7 +416,13 @@ main .backdrop {
 
 mark {
   color: transparent;
-  background-color: green;
+  background-color: var(--theme-colour);
+  opacity: 0.6;
+}
+
+mark::before {
+  content: "";
+  position: relative;
 }
 
 [contenteditable]:focus {

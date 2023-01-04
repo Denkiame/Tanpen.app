@@ -27,9 +27,9 @@ export default class Vim {
     set mode(newValue) {
         switch (newValue) {
         case 'normal':
+            this.textEditor.contentEditable = 'false'
             if (this.selection)
                 this.moveByCharacter('backward')
-            this.textEditor.contentEditable = 'false'
             this.highlight()
             break
         case 'visual':
@@ -115,11 +115,15 @@ export default class Vim {
     }
 
     moveByCharacter(direction: Direction, times: number=1) {
-        while (times--) this.selection.modify('move', direction, 'character')
+        while (times--) {
+            this.selection.modify('move', direction, 'character')
+            const range = this.selection.getRangeAt(0)
+            if (range.endContainer.textContent!.length === range.endOffset) ++times
+        }
     }
 
     selectByCharacter(direction: Direction, times: number=1) {
-
+        
     }
 
     moveByWord(direction: Direction, times: number=1) {
@@ -136,12 +140,19 @@ export default class Vim {
     }
 
     highlight() {
-        // FIXME: <br /> cannot be marked
         if (this.mode !== 'normal' || !this.selection.isCollapsed) return
 
         this.removeHighlight()
 
         const range = this.selection.getRangeAt(0)
+        // Touched the end of line
+        if (range.endContainer.textContent!.length === range.endOffset) return
+        
+        if (range.endContainer === this.textEditor) {
+            // TODO: Mark <br /> 
+            return
+        }
+        
         let index = 0, node: Node | null = range.endContainer
         while (node = node.previousSibling) ++index
         const correspondingNode = this.backdrop.childNodes[index]

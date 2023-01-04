@@ -76,7 +76,14 @@ main
 
 mark
   color: transparent
-  background-color: green
+  background-color: var(--theme-colour)
+  opacity: 0.6
+  // TODO: Animation if able 
+
+mark::before
+  content: ""
+  position: relative
+  
 
 [contenteditable]:focus
   outline: 0 solid transparent

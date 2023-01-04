@@ -18,9 +18,9 @@ class Vim {
     set mode(newValue) {
         switch (newValue) {
             case 'normal':
+                this.textEditor.contentEditable = 'false';
                 if (this.selection)
                     this.moveByCharacter('backward');
-                this.textEditor.contentEditable = 'false';
                 this.highlight();
                 break;
             case 'visual':
@@ -97,8 +97,12 @@ class Vim {
         this.selection.deleteFromDocument();
     }
     moveByCharacter(direction, times = 1) {
-        while (times--)
+        while (times--) {
             this.selection.modify('move', direction, 'character');
+            const range = this.selection.getRangeAt(0);
+            if (range.endContainer.textContent.length === range.endOffset)
+                ++times;
+        }
     }
     selectByCharacter(direction, times = 1) {
     }
@@ -117,6 +121,11 @@ class Vim {
             return;
         this.removeHighlight();
         const range = this.selection.getRangeAt(0);
+        if (range.endContainer.textContent.length === range.endOffset)
+            return;
+        if (range.endContainer === this.textEditor) {
+            return;
+        }
         let index = 0, node = range.endContainer;
         while (node = node.previousSibling)
             ++index;
