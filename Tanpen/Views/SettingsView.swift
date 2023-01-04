@@ -14,8 +14,8 @@ struct SettingsView: View {
     var body: some View {
         TabView {
             Form {
-                Section("Input Source") {
-                    Picker("Control", selection: $controlInputMethodID) {
+                Section {
+                    Picker("Control with:", selection: $controlInputMethodID) {
                         ForEach(InputSource.sources.filter {
                             ($0.type == "TISTypeKeyboardInputMode" ||
                              $0.type == "TISTypeKeyboardLayout") &&
@@ -26,7 +26,7 @@ struct SettingsView: View {
                         }
                     }
                     
-                    Picker("Writing", selection: $insertInputMethodID) {
+                    Picker("Write in:", selection: $insertInputMethodID) {
                         ForEach(InputSource.sources.filter {
                             $0.type == "TISTypeKeyboardInputMode" ||
                             $0.type == "TISTypeKeyboardLayout" }) { source in
@@ -36,8 +36,21 @@ struct SettingsView: View {
                     }
                 }
             }
+            .padding()
             .tabItem { Label("General", systemImage: "gearshape") }
+            
+            Form {
+            }
+            .padding()
+            .tabItem { Label("Forward", systemImage: "arrowshape.turn.up.forward") }
+            
+            Form {
+            }
+            .padding()
+            .tabItem { Label("Style", systemImage: "fleuron.fill") }
+            
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .frame(width: 312)
+        .background(EffectView(.windowBackground, blendingMode: .behindWindow))
     }
 }
