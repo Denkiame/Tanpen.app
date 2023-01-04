@@ -17,14 +17,6 @@ struct TanpenApp: App {
                 .frame(minWidth: 342, minHeight: 330.67 - Metrics.titlebarHeight)
         }
         
-        Settings {
-            TabView {
-                Text("General")
-                    .tabItem {
-                        Label("General", systemImage: "gearshape")
-                    }
-            }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-        }
+        Settings { SettingsView() }
     }
 }

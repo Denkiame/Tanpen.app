@@ -32,6 +32,8 @@ struct WebView: NSViewRepresentable {
     func updateNSView(_ webView: WKWebView, context: Context) { }
     
     class Coordinator: NSObject, WKScriptMessageHandler, WKNavigationDelegate {
+        @AppStorage("insertInputMethodID") private var insertInputMethodID = "com.apple.inputmethod.TCIM.Zhuyin"
+        @AppStorage("controlInputMethodID") private var controlInputMethodID = "com.apple.keylayout.ABC"
         @Binding var text: String
         
         func userContentController(_ userContentController: WKUserContentController,

@@ -17,18 +17,17 @@ class InputSource {
     }
 }
 
-extension TISInputSource {
+extension TISInputSource: Identifiable {
     private func getProperty(_ key: CFString) -> AnyObject {
         return Unmanaged<AnyObject>
             .fromOpaque(TISGetInputSourceProperty(self, key))
             .takeUnretainedValue()
     }
 
-    var id: String { getProperty(kTISPropertyInputSourceID) as! String }
+    public var id: String { getProperty(kTISPropertyInputSourceID) as! String }
     var localizedName: String { getProperty(kTISPropertyLocalizedName) as! String }
     var isSelectCapable: Bool { getProperty(kTISPropertyInputSourceIsSelectCapable) as! Bool }
+    var type: String { getProperty(kTISPropertyInputSourceType) as! String }
+    var category: String { getProperty(kTISPropertyInputSourceCategory) as! String }
+    var languages: [String] { getProperty(kTISPropertyInputSourceLanguages) as! [String] }
 }
-
-// TODO: Make them user's settings
-let insertInputMethodID = "com.apple.inputmethod.TCIM.Zhuyin"
-let controlInputMethodID = "com.apple.keylayout.ABC"

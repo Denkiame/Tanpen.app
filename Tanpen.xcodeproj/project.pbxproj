@@ -21,6 +21,7 @@
 		99E51E2629649CB2003A0A05 /* pages in Resources */ = {isa = PBXBuildFile; fileRef = 99E51E2229649CB1003A0A05 /* pages */; };
 		99E51E2729649CB2003A0A05 /* styles in Resources */ = {isa = PBXBuildFile; fileRef = 99E51E2329649CB1003A0A05 /* styles */; };
 		99E51E2829649CB2003A0A05 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 99E51E2429649CB2003A0A05 /* assets */; };
+		99E51E2D29650647003A0A05 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99E51E2C29650647003A0A05 /* SettingsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +43,7 @@
 		99E51E2329649CB1003A0A05 /* styles */ = {isa = PBXFileReference; lastKnownFileType = folder; path = styles; sourceTree = "<group>"; };
 		99E51E2429649CB2003A0A05 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = assets; sourceTree = "<group>"; };
 		99E51E2929649ED1003A0A05 /* src */ = {isa = PBXFileReference; lastKnownFileType = folder; path = src; sourceTree = "<group>"; };
+		99E51E2C29650647003A0A05 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,6 +107,7 @@
 				99A18AE42953F7C000EF29B8 /* ContentView.swift */,
 				99944EB8295B1A5800B1CE84 /* EffectView.swift */,
 				99944EBC295BD23800B1CE84 /* WebView.swift */,
+				99E51E2C29650647003A0A05 /* SettingsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -196,6 +199,7 @@
 				99944EBD295BD23800B1CE84 /* WebView.swift in Sources */,
 				99944EB7295B14D500B1CE84 /* InputSource.swift in Sources */,
 				99944EBB295B1FCB00B1CE84 /* WindowDelegate.swift in Sources */,
+				99E51E2D29650647003A0A05 /* SettingsView.swift in Sources */,
 				99944EBF295BD69300B1CE84 /* Metrics.swift in Sources */,
 				99A18AE32953F7C000EF29B8 /* TanpenDocument.swift in Sources */,
 				99944EB9295B1A5800B1CE84 /* EffectView.swift in Sources */,
