@@ -17,3 +17,6 @@ Sessionx.vim
 tags
 # Persistent undo
 [._]*.un~
+
+# Node.js
+./Tanpen/node_modules
