@@ -1,9 +1,10 @@
 type Mode = 'insert' | 'visual' | 'normal'
 type Direction = 'forward' | 'backward'
 
-const debug = (x: any) => {
+const debug = (...x: any[]) => {
     // @ts-ignore
     webkit.messageHandlers['debug'].postMessage(x)
+    console.log(...x)
 }
 
 export default class Vim {
@@ -13,14 +14,17 @@ export default class Vim {
     backdrop: HTMLElement
     selection: Selection = window.getSelection()!
 
+    // TODO: Do not send back text to WebKit at launch
     _text?: string | undefined
     set text(newValue: string) {
-        if (this._text === undefined)
-            this.textEditor.innerText = newValue
+        if (!this._text) this.textEditor.innerText = newValue
         this._text = newValue
         this.backdrop.innerText = newValue
         // @ts-ignore
-        webkit.messageHandlers['text'].postMessage(newValue)
+        webkit.messageHandlers['text'].postMessage(this.textEditor.innerText)
+
+        if (this.selection.type === 'None') this.moveToEndOfFile()
+        else this.highlight()
     }
 
     get mode() { return this._mode }
@@ -33,17 +37,16 @@ export default class Vim {
 
         switch (newValue) {
         case 'normal':
-            this.textEditor.contentEditable = 'false'
-            if (this.selection)
-                if (this.selection.focusOffset === 0)
-                    this.highlight()
-                else
-                    this.moveByCharacter('backward')
-            break
+            switch (this.selection.type) {
+            case 'Caret':
+                if (this.selection.focusNode!.nodeType === Node.ELEMENT_NODE || 
+                    this.selection.focusOffset === 0) this.highlight()
+                else this.moveByCharacter('backward')
+                break
+            }
         case 'visual':
             break
         case 'insert':
-            this.textEditor.contentEditable = 'plaintext-only'
             this.removeHighlight()
             break
         }
@@ -89,10 +92,13 @@ export default class Vim {
                 this.moveByCharacter('backward')
                 break
             case 'w':
-                this.moveByWord('forward')
+                this.moveForwardBySentence()
                 break
             case 'b':
-                this.moveByWord('backward')
+                this.moveToSentence(true)
+                break
+            case 'e':
+                this.moveToSentence()
                 break
             case 'i':
                 this.mode = 'insert'
@@ -102,85 +108,205 @@ export default class Vim {
             case 'x':
                 this.deleteCharacter()
                 break
+            case 'A':
+                this.moveToEndLine()
+                break
+            }
+        }
+    }
+    
+    deleteCharacter() {
+        if (!this.selection.focusNode) return
+
+        let caretNode = this.selection.focusNode!
+        let caretOffset = this.selection.focusOffset
+
+        if (caretNode.nodeType === Node.TEXT_NODE) {
+            const range = document.createRange()
+            range.setStart(caretNode, caretOffset)
+            range.setEnd(caretNode, caretOffset+1)
+            range.deleteContents()
+            if (this.selection.focusNode!.textContent!.length === range.startOffset)
+                this.moveByCharacter('backward')
+        } else {
+            if (caretNode.hasChildNodes())
+                caretNode = caretNode.childNodes[caretOffset]
+            if (caretNode.nextSibling) {
+                if (caretNode.nextSibling.nodeType === Node.ELEMENT_NODE)
+                    this.selection.setPosition(this.textEditor, caretOffset)
+                else
+                    this.selection.setPosition(caretNode.nextSibling, 0)
+                this.textEditor.removeChild(caretNode)
+            }        
+        }
+    }
+
+    moveByCharacter(direction: Direction, times: number=1) {
+        let caretNode = this.selection.focusNode!
+        let caretOffset = this.selection.focusOffset
+
+        while (times) {
+            let length: number 
+            if (caretNode.nodeType === Node.TEXT_NODE)
+                length = caretNode.textContent!.length
+            else {  // <br />
+                if (caretNode.hasChildNodes())
+                    caretNode = caretNode.childNodes[caretOffset]
+                length = 1
+                caretOffset = 0
+            }
+
+            if (direction === 'forward')
+                if (times > length-1 - caretOffset) {
+                    times -= length-1 - caretOffset
+                    if (!caretNode.nextSibling) {
+                        caretOffset = length-1
+                        break 
+                    } else {
+                        --times
+                        caretOffset = 0
+                        if (caretNode.nodeType === Node.TEXT_NODE &&
+                            caretNode.nextSibling.nextSibling)
+                            caretNode = caretNode.nextSibling.nextSibling
+                        else caretNode = caretNode.nextSibling
+                    }
+                } else {
+                    caretOffset += times
+                    times = 0
+                }
+            else if (direction === 'backward') {
+                if (times > caretOffset) {
+                    times -= caretOffset
+                    if (!caretNode.previousSibling) {
+                        caretOffset = 0
+                        break
+                    } else {
+                        --times
+                        if (caretNode.previousSibling.nodeType === Node.ELEMENT_NODE &&
+                            caretNode.previousSibling.previousSibling &&
+                            caretNode.previousSibling.previousSibling.nodeType === Node.TEXT_NODE)
+                            caretNode = caretNode.previousSibling.previousSibling
+                        else caretNode = caretNode.previousSibling
+                        if (caretNode.nodeType === Node.TEXT_NODE)
+                            caretOffset = caretNode.textContent!.length-1
+                    }
+                } else {
+                    caretOffset -= times
+                    times = 0
+                }
+            }
+        }
+
+        if (caretNode.nodeType === Node.TEXT_NODE)
+            this.selection.setPosition(caretNode, caretOffset)
+        else {
+            let index = 0, node: Node | null = caretNode
+            while (node = node.previousSibling) ++index
+            this.selection.setPosition(this.textEditor, index)
+        }        
+    }
+
+    moveForwardBySentence(times: number=1) {
+        while (times--) {
+            const textContent = this.selection.focusNode!.textContent!
+            let textSliced = textContent.slice(this.selection.focusOffset)
+            let index = 0
+            let matched = textSliced.match(/\p{Punctuation}/u)
+            if (matched) {
+                index += matched.index!
+                textSliced = textSliced.slice(index)
+                matched = textSliced.match(/[^\p{Punctuation}]/u)
+
+                if (matched) {
+                    index += matched.index!
+
+                    const range = this.selection.getRangeAt(0)
+                    range.setStart(range.startContainer, range.startOffset + index)
+
+                    this.selection.removeAllRanges()
+                    this.selection.addRange(range)
+                }
             }
         }
     }
 
-    deleteSelection() {
-    }
-
-    deleteCharacter() {
-        this.removeHighlight()
-        this.selection.modify('extend', 'forward', 'character')
-        this.selection.deleteFromDocument()
-    }
-
-    moveByCharacter(direction: Direction, times: number=1) {
+    moveToSentence(toStart: boolean=false, times: number=1) {
         while (times--) {
-            this.selection.modify('move', direction, 'character')
-            const range = this.selection.getRangeAt(0)
-            if (range.endContainer.textContent!.length === range.endOffset) ++times
+            const textContent = this.selection.focusNode!.textContent!
+            let textSliced = textContent.slice(0, this.selection.focusOffset)
         }
     }
 
-    selectByCharacter(direction: Direction, times: number=1) {
-        
+    moveToEndLine() {
+        this.mode = 'insert'
+        let range = this.selection.getRangeAt(0)
+        range.setStart(range.startContainer, range.startContainer.textContent!.length)
+
+        this.selection.removeAllRanges()
+        this.selection.addRange(range)
     }
 
-    moveByWord(direction: Direction, times: number=1) {
+    moveToEndOfFile() {
+        if (this.textEditor.hasChildNodes()) {
+            let caretNode = this.textEditor.lastChild!
+            
+            if (caretNode.nodeType === Node.TEXT_NODE)
+                this.selection.setPosition(caretNode, caretNode.textContent!.length-1)
+            else if (caretNode.previousSibling && caretNode.previousSibling.nodeType === Node.TEXT_NODE) {
+                caretNode = caretNode.previousSibling
+                this.selection.setPosition(caretNode, caretNode.textContent!.length-1)
+            } else
+                this.selection.setPosition(this.textEditor, this.textEditor.childNodes.length-1)
+        }
     }
 
-    caret?: HTMLElement | null
 
-    removeHighlight() {
-        if (this.caret) {
-            this.caret.outerHTML = this.caret.classList.contains('newline') ? '<br />' : this.caret.innerHTML
-            this.caret = null
+    private removeHighlight() {
+        const caret = document.querySelector('mark')
+        if (caret) {
+            caret.outerHTML = caret.classList.contains('newline') ? '<br />' : caret.innerHTML
             this.backdrop.normalize()
         }
     }
 
-    highlight() {
+    // High next character from the current caret
+    private highlight() {
         if (this.mode !== 'normal' || !this.selection.isCollapsed) return
-
-        console.log(this.selection)
 
         this.removeHighlight()
 
-        const range = this.selection.getRangeAt(0)
-        // Touched the end of line
-        if (range.endContainer.textContent!.length === range.endOffset) return
+        let caretNode = this.selection.focusNode!
+        let caretOffset = this.selection.focusOffset
 
-        console.log(range)
-        
-        if (range.endContainer === this.textEditor) {
-            this.caret = document.createElement('mark')
-            this.caret.innerHTML = '　<br />'
-            this.caret.classList.add('newline')
+        console.log(caretNode, caretOffset)
 
-            this.backdrop.replaceChild(this.caret, this.backdrop.childNodes[range.endOffset])
-            // TODO: Mark <br /> 
-            return
+        if (caretNode.nodeType === Node.TEXT_NODE) {
+            let index = 0, node: Node | null = caretNode
+            while (node = node.previousSibling) ++index
+            const targetNode = this.backdrop.childNodes[index]
+            
+            const range = document.createRange()
+            range.setStart(targetNode, caretOffset) 
+            range.setEnd(targetNode, caretOffset+1)
+            
+            const caret = document.createElement('mark')
+            range.surroundContents(caret)
+        } else {
+            const caret = document.createElement('mark')
+            caret.innerHTML = '　<br />'
+            caret.classList.add('newline')
+
+            this.backdrop.replaceChild(caret, this.backdrop.childNodes[caretOffset])
         }
-        
-        let index = 0, node: Node | null = range.endContainer
-        while (node = node.previousSibling) ++index
-        const correspondingNode = this.backdrop.childNodes[index]
-        
-        range.setStart(correspondingNode, range.startOffset) 
-        range.setEnd(correspondingNode, range.endOffset+1)
-        
-        this.caret = document.createElement('mark')
-        range.surroundContents(this.caret)
     }
 
-    private setupObservers() {
-        document.body.onkeydown = this.add.bind(this)
-        document.onselectionchange = this.highlight.bind(this)
-
+    public setupObservers() {
         new MutationObserver(() =>
             this.text = this.textEditor.innerText
         ).observe(this.textEditor, { childList: true, subtree: true, characterData: true })
+
+        document.body.onkeydown = this.add.bind(this)
+        document.onselectionchange = this.highlight.bind(this)
     }
 
     constructor(textFrame: HTMLElement, mode: Mode='insert') {
@@ -188,6 +314,7 @@ export default class Vim {
         textFrame.classList.add('text-frame')
         this.textEditor = document.createElement('div')
         this.textEditor.classList.add('editor')
+        this.textEditor.contentEditable = 'plaintext-only'
         this.backdrop = document.createElement('div')
         this.backdrop.classList.add('backdrop')
 
@@ -195,6 +322,5 @@ export default class Vim {
         this.textFrame.appendChild(this.backdrop)
 
         this.mode = mode
-        this.setupObservers()
     }        
 }

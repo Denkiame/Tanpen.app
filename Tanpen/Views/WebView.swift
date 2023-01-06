@@ -10,8 +10,9 @@ import WebKit
 
 struct WebView: NSViewRepresentable {
     @Binding var text: String
+    let callback: (WKWebView) -> Void
     
-    func makeCoordinator() -> Coordinator { Coordinator(text: $text) }
+    func makeCoordinator() -> Coordinator { Coordinator(text: $text, callback: callback) }
     
     func makeNSView(context: Context) -> WKWebView {
         let config = WKWebViewConfiguration()
@@ -31,10 +32,17 @@ struct WebView: NSViewRepresentable {
     
     func updateNSView(_ webView: WKWebView, context: Context) { }
     
+    init(text: Binding<String>, callback: @escaping (WKWebView) -> Void) {
+        _text = text
+        self.callback = callback
+    }
+    
     class Coordinator: NSObject, WKScriptMessageHandler, WKNavigationDelegate {
         @AppStorage("insertInputMethodID") private var insertInputMethodID = "com.apple.inputmethod.TCIM.Zhuyin"
         @AppStorage("controlInputMethodID") private var controlInputMethodID = "com.apple.keylayout.ABC"
         @Binding var text: String
+        
+        let callback: (WKWebView) -> Void
         
         func userContentController(_ userContentController: WKUserContentController,
                                    didReceive message: WKScriptMessage) {
@@ -45,19 +53,25 @@ struct WebView: NSViewRepresentable {
             case "mode":
                 let mode = message.body as! String
                 InputSource.select(with: mode == "insert" ?
-                    insertInputMethodID :
-                    controlInputMethodID)
+                                   insertInputMethodID :
+                                    controlInputMethodID)
                 break
             default:
-                print(message.name, message.body)
+                (message.body as! [Any]).forEach { print($0, terminator: " ") }
+                print()
                 break
             }
         }
         
         func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
             webView.evaluateJavaScript("vim.text = `\(text)`")
+            webView.evaluateJavaScript("vim.setupObservers()")
+            callback(webView)
         }
         
-        init(text: Binding<String>) { _text = text }
+        init(text: Binding<String>, callback: @escaping (WKWebView) -> Void) {
+            _text = text
+            self.callback = callback
+        }
     }
 }

@@ -18,7 +18,7 @@ $titlebar_height: 28px
   --selection-colour: black
   --ring-colour: #fff
   --theme-colour: #56B8CD
-  --text-frame-height: $lgth
+  --text-frame-height: #{$lgth}
 
 @media screen and (prefers-color-scheme: dark)
   :root
@@ -41,20 +41,22 @@ body
 
 .normal
   font-feature-settings: 'vchw' 0
+  caret-color: transparent
 
 .insert
   font-feature-settings: 'vchw'
+  caret-color: var(--theme-colour)
 
 main
   height: var(--text-frame-height)
-  caret-color: var(--theme-colour)
+  // caret-color: var(--theme-colour)
 
   font-family: Punc, Latin, Hak, sans-serif
   color: var(--foreground-colour)
 
   line-height: $mplr
   text-align: justify
-  margin: calc($lacs - $titlebar_height) $lacs - $lsid $lacs
+  margin: $lacs $lacs - $lsid $lacs
 
   display: grid
   grid-template-columns: 1fr
@@ -103,7 +105,7 @@ mark::before
 
 @function corresponding_screen_height($text_frame_height)
   // Should return `px`
-  @return $text_frame_height + 2 * (2 * $mplr - 1) * $fs - $titlebar_height - .001px
+  @return $text_frame_height + 2 * (2 * $mplr - 1) * $fs
 
 // Create `max-height` breakpoints
 $_last_breakpoint: null

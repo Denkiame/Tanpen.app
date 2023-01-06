@@ -17,7 +17,7 @@ extension UTType {
 struct TanpenDocument: FileDocument {
     var text: String
 
-    init(text: String = "&#8288;") {
+    init(text: String = "\n") {
         self.text = text
     }
 

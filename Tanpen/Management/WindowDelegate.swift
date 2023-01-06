@@ -9,10 +9,14 @@ import AppKit
 
 class WindowDelegate: NSObject, NSWindowDelegate {
     func configure(window: NSWindow) {
-        window.backgroundColor = NSColor.textBackgroundColor
-        
         window.titlebarAppearsTransparent = true
         window.titlebarSeparatorStyle = .none
+        window.standardWindowButton(.zoomButton)?.isHidden = true
+        window.standardWindowButton(.miniaturizeButton)?.isHidden = true
+        window.styleMask.remove([ .miniaturizable, .fullScreen ])
+        DispatchQueue.main.asyncAfter(deadline: .now()+1.2) { window.showsTitlebar(false) }
+        
+        window.backgroundColor = NSColor(white: 1, alpha: 1e-3)
         
         window.tabbingMode = .disallowed
         window.delegate = self

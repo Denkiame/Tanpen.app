@@ -5,7 +5,8 @@
   "main": "src/index.ts",
   "scripts": {
     "build": "rollup -c",
-    "dev": "rollup -c -w"
+    "dev": "rollup -c -w",
+    "sass-watch": "sass --no-source-map -w ./src/style.sass ./styles/style.css"
   },
   "type": "module",
   "author": "",
