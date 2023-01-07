@@ -1,7 +1,7 @@
 type Mode = 'insert' | 'visual' | 'normal'
 type Direction = 'forward' | 'backward'
 
-const debug = (...x: any[]) => {
+const log = (...x: any[]) => {
     // @ts-ignore
     webkit.messageHandlers['debug'].postMessage(x)
     console.log(...x)
@@ -108,13 +108,22 @@ export default class Vim {
             case 'x':
                 this.deleteCharacter()
                 break
+            case 'p':
+                this.insertCharacter()
+                break
+            case '$':
+                this.moveToLineEnd()
+                break
             case 'A':
-                this.moveToEndLine()
+                this.editAtLineEnd()
                 break
             }
         }
     }
+
+    deletionStore?: string | null
     
+    // FIXME: Error when deleting line with one single character
     deleteCharacter() {
         if (!this.selection.focusNode) return
 
@@ -125,6 +134,7 @@ export default class Vim {
             const range = document.createRange()
             range.setStart(caretNode, caretOffset)
             range.setEnd(caretNode, caretOffset+1)
+            this.deletionStore = range.toString()
             range.deleteContents()
             if (this.selection.focusNode!.textContent!.length === range.startOffset)
                 this.moveByCharacter('backward')
@@ -136,8 +146,41 @@ export default class Vim {
                     this.selection.setPosition(this.textEditor, caretOffset)
                 else
                     this.selection.setPosition(caretNode.nextSibling, 0)
+                this.deletionStore = '\n'
                 this.textEditor.removeChild(caretNode)
             }        
+        }
+    }
+
+    insertCharacter() {
+        if (!this.selection.focusNode || !this.deletionStore) return
+        const range = this.selection.getRangeAt(0)
+
+        let caretNode = this.selection.focusNode!
+        const caretOffset = this.selection.focusOffset
+
+        if (this.deletionStore === '\n') {
+            if (caretNode.hasChildNodes())
+                caretNode = caretNode.childNodes[caretOffset]
+            if (caretNode.nextSibling) {
+                this.textEditor.insertBefore(document.createElement('br'), caretNode.nextSibling)
+            } else this.textEditor.appendChild(document.createElement('br'))
+
+            this.moveToLineEnd()
+            this.moveByCharacter('forward')
+        } else {
+            if (caretNode.hasChildNodes())
+                caretNode = caretNode.childNodes[caretOffset]
+            let textNode = document.createTextNode(this.deletionStore)
+            if (caretNode.nodeType === Node.ELEMENT_NODE) {
+                this.textEditor.replaceChild(textNode, caretNode)
+                this.selection.setPosition(textNode, 0)
+            } else {
+                range.setStart(caretNode, caretOffset+1)
+                range.insertNode(textNode)
+                this.textEditor.normalize()
+                this.moveByCharacter('forward')
+            }
         }
     }
 
@@ -165,10 +208,10 @@ export default class Vim {
                     } else {
                         --times
                         caretOffset = 0
-                        if (caretNode.nodeType === Node.TEXT_NODE &&
-                            caretNode.nextSibling.nextSibling)
-                            caretNode = caretNode.nextSibling.nextSibling
-                        else caretNode = caretNode.nextSibling
+                        if (caretNode.nodeType === Node.TEXT_NODE) {
+                            if (caretNode.nextSibling.nextSibling)
+                                caretNode = caretNode.nextSibling.nextSibling
+                        } else caretNode = caretNode.nextSibling
                     }
                 } else {
                     caretOffset += times
@@ -237,13 +280,22 @@ export default class Vim {
         }
     }
 
-    moveToEndLine() {
-        this.mode = 'insert'
-        let range = this.selection.getRangeAt(0)
-        range.setStart(range.startContainer, range.startContainer.textContent!.length)
+    moveToLineEnd() {
+        if (!this.selection.focusNode) return
+        const caretNode = this.selection.focusNode!
 
-        this.selection.removeAllRanges()
-        this.selection.addRange(range)
+        if (caretNode.nodeType === Node.TEXT_NODE)
+            this.selection.setPosition(caretNode, caretNode.textContent!.length-1)
+    }
+
+    editAtLineEnd() {
+        if (!this.selection.focusNode) return
+        const caretNode = this.selection.focusNode!
+
+        this.mode = 'insert'
+        
+        if (caretNode.nodeType === Node.TEXT_NODE)
+            this.selection.setPosition(caretNode, caretNode.textContent!.length)
     }
 
     moveToEndOfFile() {
@@ -277,8 +329,6 @@ export default class Vim {
 
         let caretNode = this.selection.focusNode!
         let caretOffset = this.selection.focusOffset
-
-        console.log(caretNode, caretOffset)
 
         if (caretNode.nodeType === Node.TEXT_NODE) {
             let index = 0, node: Node | null = caretNode
@@ -324,3 +374,4 @@ export default class Vim {
         this.mode = mode
     }        
 }
+

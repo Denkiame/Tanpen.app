@@ -96,12 +96,19 @@ class Vim {
                 case 'x':
                     this.deleteCharacter();
                     break;
+                case 'p':
+                    this.insertCharacter();
+                    break;
+                case '$':
+                    this.moveToLineEnd();
+                    break;
                 case 'A':
-                    this.moveToEndLine();
+                    this.editAtLineEnd();
                     break;
             }
         }
     }
+    deletionStore;
     deleteCharacter() {
         if (!this.selection.focusNode)
             return;
@@ -111,6 +118,7 @@ class Vim {
             const range = document.createRange();
             range.setStart(caretNode, caretOffset);
             range.setEnd(caretNode, caretOffset + 1);
+            this.deletionStore = range.toString();
             range.deleteContents();
             if (this.selection.focusNode.textContent.length === range.startOffset)
                 this.moveByCharacter('backward');
@@ -123,7 +131,41 @@ class Vim {
                     this.selection.setPosition(this.textEditor, caretOffset);
                 else
                     this.selection.setPosition(caretNode.nextSibling, 0);
+                this.deletionStore = '\n';
                 this.textEditor.removeChild(caretNode);
+            }
+        }
+    }
+    insertCharacter() {
+        if (!this.selection.focusNode || !this.deletionStore)
+            return;
+        const range = this.selection.getRangeAt(0);
+        let caretNode = this.selection.focusNode;
+        const caretOffset = this.selection.focusOffset;
+        if (this.deletionStore === '\n') {
+            if (caretNode.hasChildNodes())
+                caretNode = caretNode.childNodes[caretOffset];
+            if (caretNode.nextSibling) {
+                this.textEditor.insertBefore(document.createElement('br'), caretNode.nextSibling);
+            }
+            else
+                this.textEditor.appendChild(document.createElement('br'));
+            this.moveToLineEnd();
+            this.moveByCharacter('forward');
+        }
+        else {
+            if (caretNode.hasChildNodes())
+                caretNode = caretNode.childNodes[caretOffset];
+            let textNode = document.createTextNode(this.deletionStore);
+            if (caretNode.nodeType === Node.ELEMENT_NODE) {
+                this.textEditor.replaceChild(textNode, caretNode);
+                this.selection.setPosition(textNode, 0);
+            }
+            else {
+                range.setStart(caretNode, caretOffset + 1);
+                range.insertNode(textNode);
+                this.textEditor.normalize();
+                this.moveByCharacter('forward');
             }
         }
     }
@@ -150,9 +192,10 @@ class Vim {
                     else {
                         --times;
                         caretOffset = 0;
-                        if (caretNode.nodeType === Node.TEXT_NODE &&
-                            caretNode.nextSibling.nextSibling)
-                            caretNode = caretNode.nextSibling.nextSibling;
+                        if (caretNode.nodeType === Node.TEXT_NODE) {
+                            if (caretNode.nextSibling.nextSibling)
+                                caretNode = caretNode.nextSibling.nextSibling;
+                        }
                         else
                             caretNode = caretNode.nextSibling;
                     }
@@ -221,12 +264,20 @@ class Vim {
             textContent.slice(0, this.selection.focusOffset);
         }
     }
-    moveToEndLine() {
+    moveToLineEnd() {
+        if (!this.selection.focusNode)
+            return;
+        const caretNode = this.selection.focusNode;
+        if (caretNode.nodeType === Node.TEXT_NODE)
+            this.selection.setPosition(caretNode, caretNode.textContent.length - 1);
+    }
+    editAtLineEnd() {
+        if (!this.selection.focusNode)
+            return;
+        const caretNode = this.selection.focusNode;
         this.mode = 'insert';
-        let range = this.selection.getRangeAt(0);
-        range.setStart(range.startContainer, range.startContainer.textContent.length);
-        this.selection.removeAllRanges();
-        this.selection.addRange(range);
+        if (caretNode.nodeType === Node.TEXT_NODE)
+            this.selection.setPosition(caretNode, caretNode.textContent.length);
     }
     moveToEndOfFile() {
         if (this.textEditor.hasChildNodes()) {
@@ -254,7 +305,6 @@ class Vim {
         this.removeHighlight();
         let caretNode = this.selection.focusNode;
         let caretOffset = this.selection.focusOffset;
-        console.log(caretNode, caretOffset);
         if (caretNode.nodeType === Node.TEXT_NODE) {
             let index = 0, node = caretNode;
             while (node = node.previousSibling)
